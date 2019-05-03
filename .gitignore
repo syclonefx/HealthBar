@@ -58,6 +58,7 @@ notes.txt
 *.pdb
 *.opendb
 
+<<<<<<< HEAD
 ###
 # Sprites, image and audio assets
 ###
@@ -86,5 +87,15 @@ sysinfo.txt
 ###
 # Builds
 ###
+=======
+# Unity3D generated meta files
+*.pidb.meta
+*.pdb.meta
+
+# Unity3D Generated File On Crash Reports
+sysinfo.txt
+
+# Builds
+>>>>>>> origin/master
 *.apk
 *.unitypackage
