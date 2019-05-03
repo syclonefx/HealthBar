@@ -5,12 +5,15 @@ using UnityEngine;
 public class HealthBar : MonoBehaviour
 {
     // Configurtaion Parameters
-    [SerializeField] float health = 100f;
     [SerializeField] Color barColor = Color.red;
 
+    // Variables
     GameObject hbHealth;
     GameObject hbContainer;
     GameObject hbHealthBar;
+    bool hasDied = false;
+    float health = 100f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,16 @@ public class HealthBar : MonoBehaviour
         
     }
 
+    public float GetHealth()
+    {
+        return health;
+    }
+
+    public bool HasDied()
+    {
+        return hasDied;
+    }
+
     public void ReduceHealth(float amount)
     {
         if (health >= amount)
@@ -41,15 +54,24 @@ public class HealthBar : MonoBehaviour
 
             if (health <= Mathf.Epsilon)
             {
-                FindObjectOfType<Lizard>().Die();
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                hasDied = true;
             }
-
         }
         else
         {
-            FindObjectOfType<Lizard>().Die();
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            hasDied = true;
         }
+    }
+
+    public void SetInitialHealth(float health)
+    {
+        this.health = health;
+    }
+
+    public void SetBarColor(Color color)
+    {
+        barColor = color;
     }
 }

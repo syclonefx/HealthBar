@@ -158,7 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38cb48708195949c4853693fc8bf52b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
   barColor: {r: 1, g: 0, b: 0.003921569, a: 1}
 --- !u!1 &160471559
 GameObject:
@@ -428,8 +427,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 150411351}
-        m_MethodName: ReduceHealth
+      - m_Target: {fileID: 1781500611}
+        m_MethodName: TakeDamage
         m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -834,6 +833,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 419285fa53f354524a97461bc99d5441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBar: {fileID: 150411351}
+  initialHealth: 100
 --- !u!1 &1837976125
 GameObject:
   m_ObjectHideFlags: 0

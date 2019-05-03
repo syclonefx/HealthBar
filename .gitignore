@@ -62,7 +62,7 @@ notes.txt
 ###
 # Sprites, image and audio assets
 ###
-
+*.png
 *.jpg
 *.jpeg
 *.gif
