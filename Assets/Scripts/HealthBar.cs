@@ -27,7 +27,12 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 
     public float GetHealth()
@@ -73,5 +78,6 @@ public class HealthBar : MonoBehaviour
     public void SetBarColor(Color color)
     {
         barColor = color;
+        hbHealth.GetComponent<SpriteRenderer>().color = color;
     }
 }

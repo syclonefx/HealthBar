@@ -18,9 +18,10 @@ public class Lizard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //healthBar.SetBarColor(Color.blue);
         if (healthBar.HasDied())
         {
-            Destroy(healthBar);
+            healthBar.Destroy();
             Die();
         }
     }
