@@ -8,17 +8,19 @@ public class Lizard : MonoBehaviour
     [SerializeField] HealthBar healthBar;
     [SerializeField] float initialHealth = 100f;
 
+    // Variables
+
+
     // Start is called before the first frame update
     void Start()
     {
         healthBar.SetInitialHealth(initialHealth);
-        healthBar.SetBarColor(Color.blue);
+        healthBar.SetBarColors(Color.blue, Color.green);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //healthBar.SetBarColor(Color.blue);
         if (healthBar.HasDied())
         {
             healthBar.Destroy();
