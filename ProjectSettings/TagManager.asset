@@ -8,6 +8,8 @@ TagManager:
   - HB_Container
   - HB_Bar
   - HB_Background
+  - HB_Shield
+  - HB_ShieldBar
   layers:
   - Default
   - TransparentFX

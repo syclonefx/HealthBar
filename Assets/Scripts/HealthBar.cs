@@ -7,12 +7,15 @@ public class HealthBar : MonoBehaviour
     // Configurtaion Parameters
     [SerializeField] Color barStandardColor = Color.red;
     [SerializeField] Color barAltColor = Color.white;
-    [SerializeField][Range(0.125f,1f)] float flashDelay = 0.25f;
+    [SerializeField] [Range(0.125f,1f)] float flashDelay = 0.25f;
+    [SerializeField] bool enableShield = false;
 
     // Variables
     GameObject hbHealth;
-    GameObject hbContainer;
     GameObject hbHealthBar;
+    GameObject hbShieldBar;
+    GameObject hbShield;
+
     bool hasDied = false;
     float health = 100f;
     float initialHealth = 100f;
@@ -20,13 +23,51 @@ public class HealthBar : MonoBehaviour
     bool alternateColor = false;
     bool flash = false;
 
+    bool hasShield = true;
+    float shieldHealth = 100f;
+    float initialShieldHealth = 100f;
+
+
     // Start is called before the first frame update
     void Start()
     {
         initialHealth = health;
-        hbContainer = GameObject.FindWithTag("HB_Container");
-        hbHealth = GameObject.FindWithTag("HB_Health");
-        hbHealthBar = GameObject.FindWithTag("HB_Bar");
+        initialShieldHealth = shieldHealth;
+
+        foreach (Transform child in gameObject.transform)
+        {
+            if (child.tag == "HB_Bar")
+            {
+                hbHealthBar = child.gameObject;
+
+                foreach (Transform kid in hbHealthBar.transform)
+                {
+                    if (kid.tag == "HB_Health")
+                    {
+                        hbHealth = kid.gameObject;
+                    }
+                }
+            }
+            else if (child.tag == "HB_ShieldBar")
+            {
+                hbShieldBar = child.gameObject;
+                foreach (Transform kid in hbShieldBar.transform)
+                {
+                    if (kid.tag == "HB_ShieldBar")
+                    {
+                        hbShield = kid.gameObject;
+                    }
+                }
+                if (!enableShield)
+                {
+                    hbShield.SetActive(false);
+                    shieldHealth = 0;
+                    initialShieldHealth = 0;
+                    hasShield = false;
+                }
+            }
+        }
+
         hbHealth.GetComponent<SpriteRenderer>().color = barStandardColor;
     }
 
@@ -86,7 +127,7 @@ public class HealthBar : MonoBehaviour
         } while (flash);
     }
 
-    public void ReduceHealth(float amount)
+    private void ReduceHealth(float amount)
     {
         if (health >= amount)
         {
@@ -109,6 +150,29 @@ public class HealthBar : MonoBehaviour
         }
     }
 
+    private void ReduceShield(float amount)
+    {
+        if (shieldHealth >= amount)
+        {
+            var newShieldHealth = shieldHealth - amount;
+            float percentDecrease = (newShieldHealth - shieldHealth) / 100;
+
+            float x = hbShieldBar.transform.localScale.x;
+            float newX = percentDecrease + x;
+            hbShieldBar.transform.localScale = new Vector2(newX, 1f);
+            shieldHealth = newShieldHealth;
+
+            if (shieldHealth <= Mathf.Epsilon)
+            {
+                hasShield = false;
+            }
+        }
+        else
+        {
+            hasShield = false;
+        }
+    }
+
     private void SetBarColor(Color color)
     {
         hbHealth.GetComponent<SpriteRenderer>().color = color;
@@ -127,5 +191,17 @@ public class HealthBar : MonoBehaviour
         initialHealth = health;
     }
 
-
+    public void TakeDamage(float amount)
+    {
+        if (hasShield)
+        {
+            ReduceShield(amount);
+            float newAmount = amount * 0.5f;
+            ReduceHealth(newAmount);
+        }
+        else
+        {
+            ReduceHealth(amount);
+        }
+    }
 }

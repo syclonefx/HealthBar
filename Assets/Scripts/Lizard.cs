@@ -35,6 +35,8 @@ public class Lizard : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        healthBar.ReduceHealth(damage);
+        //healthBar.ReduceShield(damage);
+        //healthBar.ReduceHealth(damage / 3);
+        healthBar.TakeDamage(damage);
     }
 }
