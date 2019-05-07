@@ -5,10 +5,15 @@ using UnityEngine;
 public class HealthBar : MonoBehaviour
 {
     // Configurtaion Parameters
-    [SerializeField] Color barStandardColor = Color.red;
-    [SerializeField] Color barAltColor = Color.white;
-    [SerializeField] [Range(0.125f,1f)] float flashDelay = 0.25f;
+    [Header("Health")]
+    [SerializeField] Color healthBarStandardColor = Color.red;
+    [SerializeField] Color healthBarAltColor = Color.white;
+    [SerializeField] [Range(0.125f, 1f)] float flashDelay = 0.25f;
+
+    [Header("Shield")]
     [SerializeField] bool enableShield = false;
+    [SerializeField] Color shieldBarColor = Color.green;
+    [SerializeField] [Range(0.1f,0.75f)][Tooltip("The higher the multiplier the more damage to health.")] float shieldMultiplier = 0.5f;
 
     // Variables
     GameObject hbHealth;
@@ -26,7 +31,6 @@ public class HealthBar : MonoBehaviour
     bool hasShield = true;
     float shieldHealth = 100f;
     float initialShieldHealth = 100f;
-
 
     // Start is called before the first frame update
     void Start()
@@ -68,7 +72,7 @@ public class HealthBar : MonoBehaviour
             }
         }
 
-        hbHealth.GetComponent<SpriteRenderer>().color = barStandardColor;
+        hbHealth.GetComponent<SpriteRenderer>().color = healthBarStandardColor;
     }
 
     // Update is called once per frame
@@ -94,6 +98,24 @@ public class HealthBar : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private IEnumerator FlashBar()
+    {
+        do
+        {
+            yield return new WaitForSeconds(flashDelay);
+            if (alternateColor)
+            {
+                SetBarColor(healthBarStandardColor);
+                alternateColor = false;
+            }
+            else
+            {
+                SetBarColor(healthBarAltColor);
+                alternateColor = true;
+            }
+        } while (flash);
+    }
+
     public bool Flashing()
     {
         return flash;
@@ -107,24 +129,6 @@ public class HealthBar : MonoBehaviour
     public bool HasDied()
     {
         return hasDied;
-    }
-
-    private IEnumerator FlashBar()
-    {
-        do
-        {
-            yield return new WaitForSeconds(flashDelay);
-            if (alternateColor)
-            {
-                SetBarColor(barStandardColor);
-                alternateColor = false;
-            }
-            else
-            {
-                SetBarColor(barAltColor);
-                alternateColor = true;
-            }
-        } while (flash);
     }
 
     private void ReduceHealth(float amount)
@@ -180,8 +184,8 @@ public class HealthBar : MonoBehaviour
 
     public void SetBarColors(Color standardColor, Color altColor)
     {
-        barStandardColor = standardColor;
-        barAltColor = altColor;
+        healthBarStandardColor = standardColor;
+        healthBarAltColor = altColor;
         hbHealth.GetComponent<SpriteRenderer>().color = standardColor;
     }
 
@@ -196,7 +200,7 @@ public class HealthBar : MonoBehaviour
         if (hasShield)
         {
             ReduceShield(amount);
-            float newAmount = amount * 0.5f;
+            float newAmount = amount * shieldMultiplier;
             ReduceHealth(newAmount);
         }
         else

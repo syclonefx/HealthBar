@@ -159,10 +159,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38cb48708195949c4853693fc8bf52b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barStandardColor: {r: 1, g: 0, b: 0, a: 1}
-  barAltColor: {r: 1, g: 1, b: 1, a: 1}
+  healthBarStandardColor: {r: 1, g: 0, b: 0, a: 1}
+  healthBarAltColor: {r: 1, g: 1, b: 1, a: 1}
   flashDelay: 0.25
   enableShield: 1
+  shieldBarColor: {r: 0, g: 1, b: 0, a: 1}
+  shieldMultiplier: 0.5
 --- !u!1 &160471559
 GameObject:
   m_ObjectHideFlags: 0
